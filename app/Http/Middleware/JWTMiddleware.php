@@ -3,24 +3,18 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
 
-class Authenticate extends Middleware
+class JWTMiddleware
 {
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
+     * Handle an incoming request.
      *
-     * @param Request $request
-     * @return string|null
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    protected function redirectTo(Request $request)
-    {
-        return $request->expectsJson() ? null : route('login');
-    }
-
     public function handle($request, Closure $next, ...$guards)
     {
         try {
