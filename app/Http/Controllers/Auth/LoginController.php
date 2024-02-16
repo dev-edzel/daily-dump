@@ -8,8 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
 {
@@ -35,8 +36,15 @@ class LoginController extends Controller
             return response(['error' => 'Could not create token'], 500);
         }
 
+        $tokenType = 'Bearer';
+        $expiresIn = JWTAuth::factory()->getTTL() * 60;
+
         $cookie = cookie('jwt', $token, config('jwt.ttl'));
 
-        return response(compact('token'))->withCookie($cookie);
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => $tokenType,
+            'expires_in' => $expiresIn,
+        ])->withCookie($cookie);
     }
 }

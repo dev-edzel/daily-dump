@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('register', [RegisterController::class, 'store'])->name('register');
-
 Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::post('refresh', [LoginController::class, 'refreshToken'])->name('refresh');
 
 Route::group(['middleware' => ['auth.jwt']], function () {
     Route::get('customers', [CustomerController::class, 'index'])->can('viewAny', Customer::class)->name('customer.index');
