@@ -96,8 +96,7 @@
                 type: "POST",
                 data: formData,
                 success: function(data) {
-                    if (data.msg) {
-                    } else {
+                    if (data.msg) {} else {
                         printErrorMsg(data);
                     }
                 }
